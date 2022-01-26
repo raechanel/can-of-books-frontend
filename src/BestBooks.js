@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Carousel from 'react-bootstrap/Carousel';
 
-import { Form , Button, Container } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 
 
 let url = 'http://localhost:3001'
@@ -30,13 +30,23 @@ class BestBooks extends React.Component {
   }
 
   makeBook = async (newBook) => {
-    let url = 'http://localhost:3001/books'
+    let url = 'http://localhost:3001/books';
     let bookResult = await axios.post(url, newBook);
 
     // console.log(bookResult.data);
     this.setState({
       books: [...this.state.books, bookResult.data]
     })
+  }
+
+  deleteBook = async (id) => {
+    let url = 'http://localhost:3001/books';
+    await axios.delete(`${url}/${id}`)
+    const updatedBooks = this.state.books.filter(book => book._id !== id);
+
+    this.setState({
+      books: updatedBooks
+    });
   }
 
   componentDidMount() {
@@ -73,6 +83,7 @@ class BestBooks extends React.Component {
           <h3>{book.title}</h3>
           <p>{book.description}</p>
         </Carousel.Caption>
+        <Button onClick={() => this.props.deleteBook(this.props.book.id)}>Delete</Button>
       </Carousel.Item >
     )
     )
@@ -81,35 +92,35 @@ class BestBooks extends React.Component {
       <>
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
         <>
-            <Container>
-              <Form onSubmit={this.handleBookSubmit}>
-                <Form.Group controlId="title">
-                  <Form.Label>
-                    Title
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group controlId="description">
-                  <Form.Label>
-                    Description
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group controlId="status">
-                  <Form.Label>
-                    Status
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group controlId="email">
-                  <Form.Label>
-                    Email
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Button type="submit">Add a Book</Button>
-              </Form>
-            </Container>
+          <Container>
+            <Form onSubmit={this.handleBookSubmit}>
+              <Form.Group controlId="title">
+                <Form.Label>
+                  Title
+                </Form.Label>
+                <Form.Control type="text" />
+              </Form.Group>
+              <Form.Group controlId="description">
+                <Form.Label>
+                  Description
+                </Form.Label>
+                <Form.Control type="text" />
+              </Form.Group>
+              <Form.Group controlId="status">
+                <Form.Label>
+                  Status
+                </Form.Label>
+                <Form.Control type="text" />
+              </Form.Group>
+              <Form.Group controlId="email">
+                <Form.Label>
+                  Email
+                </Form.Label>
+                <Form.Control type="text" />
+              </Form.Group>
+              <Button type="submit">Add a Book</Button>
+            </Form>
+          </Container>
         </>
         {this.state.books.length ? (
           <Carousel>
