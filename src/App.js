@@ -10,6 +10,9 @@ import {
 import BestBooks from './BestBooks';
 import Profile from './Profile';
 import Login from './Login';
+import { Form , Button, Container } from 'react-bootstrap';
+
+import axios from 'axios';
 
 class App extends React.Component {
 
@@ -32,6 +35,21 @@ class App extends React.Component {
     })
   }
 
+  handleBookSubmit = (e) => {
+    e.preventDefault();
+    let newBook = {
+      title: e.target.title.value,
+      description: e.target.description.value,
+      status: e.target.status.value,
+      email: e.target.email.value
+    }
+    console.log(newBook);
+  }
+
+  makeBook = async (newBook) => {
+    let bookResult = await axios.post();
+  }
+
   render() {
     return (
       <>
@@ -39,14 +57,41 @@ class App extends React.Component {
           <Header user={this.state.user} onLogout={this.logoutHandler} />
           <Switch>
             <Route exact path="/">
-              {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
               {this.state.user ? <BestBooks /> : <Login onLogin={this.loginHandler}/>}
             </Route>
             <Route exactPath="/profile">
               <Profile user={this.state.user}/>
             </Route>
-            {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
           </Switch>
+          <Container>
+            <Form onSubmit={this.handleBookSubmit}>
+              <Form.Group controlId = "title"> 
+                <Form.Label>
+                  Title
+                </Form.Label>
+                <Form.Control type="text" />
+              </Form.Group>
+              <Form.Group controlId = "description"> 
+                <Form.Label>
+                  Description
+                </Form.Label>
+                <Form.Control type="text" />
+              </Form.Group>
+              <Form.Group controlId = "status"> 
+                <Form.Label>
+                  Status
+                </Form.Label>
+                <Form.Control type="text" />
+              </Form.Group>
+              <Form.Group controlId = "email"> 
+                <Form.Label>
+                  Email
+                </Form.Label>
+                <Form.Control type="text" />
+              </Form.Group>
+              <Button type="submit">Add a Book</Button>
+            </Form>
+          </Container>
           <Footer />
         </Router>
       </>
