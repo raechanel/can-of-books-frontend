@@ -11,6 +11,7 @@ import BestBooks from './BestBooks';
 import Profile from './Profile';
 import Login from './Login';
 
+
 class App extends React.Component {
 
   constructor(props) {
@@ -32,6 +33,9 @@ class App extends React.Component {
     })
   }
 
+
+
+
   render() {
     return (
       <>
@@ -39,13 +43,11 @@ class App extends React.Component {
           <Header user={this.state.user} onLogout={this.logoutHandler} />
           <Switch>
             <Route exact path="/">
-              {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
-              {this.state.user ? <BestBooks /> : <Login onLogin={this.loginHandler}/>}
+              {this.state.user ? <BestBooks /> : <Login onLogin={this.loginHandler} />}
             </Route>
             <Route exactPath="/profile">
-              <Profile user={this.state.user}/>
+              <Profile user={this.state.user} />
             </Route>
-            {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
           </Switch>
           <Footer />
         </Router>
