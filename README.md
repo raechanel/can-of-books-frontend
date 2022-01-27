@@ -1,9 +1,9 @@
 # Can Of Books
 
-* Published to
+* [Published Via Netlify](https://app.netlify.com/sites/mystifying-leakey-7fb2c2/overview)
 
 **Author**: Chuck Altopiedi, Regan Hayes, Robb Alexander
-**Version**: 0.2.0
+**Version**: 0.9.0
 
 ## Overview
 
@@ -25,7 +25,9 @@ This app was built in Node.JS around starter code for a React app and for basic 
 
 01/25/22
 
-01/26/22
+* 01/26/22
+  * Deployed to [Netlify](https://app.netlify.com/sites/mystifying-leakey-7fb2c2/overview)
+ (front-end) and [Heroku](https://can-of-books-301.herokuapp.com/) (back-end)
 
 01/27/22
 
@@ -36,15 +38,24 @@ This app was built in Node.JS around starter code for a React app and for basic 
 Estimated feature build time: 2 Hours
 01/25/22
 
-Actual completion time: 6:00PM-8:20PM EST
+Actual completion time: 6:00PM-8:20PM PST
 
 #### User Book Deletion Button
 
-1/25/22 - 1/
+1/25/22 - 1/26/22
 
 Estimated feature build time: 0.75 Hours
 
-Actual Completion time: 8:45-9:25 (WIP)
+Actual Completion time: 85 minutes (8:45-9:25 PST 1/25/22, 2:30-3:15 PM PST 1/26/22)
+
+#### Modal Display for Addition & Update Forms
+
+#### User Book Update Form
+
+1/26/22
+Estimated feature build time: 3 Hours
+
+Actual Completion Time: 2.45 Hours (3:30-6:15PM PST)
 
 ## Credit and Collaborations
 
@@ -52,7 +63,7 @@ Assistance was provided by Code Fellows staff members: Ryan Gallaway, Riva David
 
 ## Work Log
 
-* 01/24/22: Driver Log [Navigator actions in brackets]: **note-- come back to status in schema to replace with boolean**?
+* 01/24/22: Driver Log [Other teammate non-navigation actions in brackets]: **note-- come back to status in schema to replace with boolean**?
 
   * [Robb: when not driving, periodically recorded in ReadMe]
   * Rae: Created front-end repo [cloned locally]; deployment of front-end to Netlify;
@@ -67,6 +78,9 @@ Assistance was provided by Code Fellows staff members: Ryan Gallaway, Riva David
   * Chuck: Caught up Lab 11 Backend features []
   * Robb: Caught up Lab 11 Frontend features []
   * Rae: Coded POST request functionality of user form per Lab 12.1 in Trello [Updated ReadMe]
+
+* 01/26/22: Driver Log
+  * Chuck: Caught up remaining Lab 12 Features: Modals, deletion, carousel styling& functionality ; built out PUT request functionality
 
 ## Team Agreement
 
@@ -96,7 +110,7 @@ Possibility for additional hours (up to 3 past main schedule)
 * Rae: Leadership, researching code solutions, use of asynchronous functions,
 * Chuck: Listening, constructor functions,
 
-#### Dev(eloper) Dev(elopment)
+#### Developer Development
 
 * Robb: Seeks to develop better intuition for setting up server files;
 
