@@ -1,6 +1,6 @@
 # Can Of Books
 
-* Published to
+* [Published Via Netlify](https://app.netlify.com/sites/mystifying-leakey-7fb2c2/overview)
 
 **Author**: Chuck Altopiedi, Regan Hayes, Robb Alexander
 **Version**: 0.9.0
@@ -26,7 +26,8 @@ This app was built in Node.JS around starter code for a React app and for basic 
 01/25/22
 
 * 01/26/22
-  * Deployed to Netlify (front-end) and Heroku (back-end)
+  * Deployed to [Netlify](https://app.netlify.com/sites/mystifying-leakey-7fb2c2/overview)
+ (front-end) and [Heroku](https://can-of-books-301.herokuapp.com/) (back-end)
 
 01/27/22
 
