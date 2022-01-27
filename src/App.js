@@ -43,7 +43,7 @@ class App extends React.Component {
           <Header user={this.state.user} onLogout={this.logoutHandler} />
           <Switch>
             <Route exact path="/">
-              {this.state.user ? <BestBooks /> : <Login onLogin={this.loginHandler} />}
+              {this.state.user ? <BestBooks user={this.state.user} /> : <Login onLogin={this.loginHandler} />}
             </Route>
             <Route exactPath="/profile">
               <Profile user={this.state.user} />

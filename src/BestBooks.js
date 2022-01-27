@@ -1,17 +1,17 @@
 import React from 'react';
 import axios from 'axios';
-import Carousel from 'react-bootstrap/Carousel';
+import { Form, Button, Container, Carousel, Modal } from 'react-bootstrap';
+import UpdateButton from './UpdateButton';
 
-import { Form, Button, Container } from 'react-bootstrap';
-
-
-let url = 'http://localhost:3001'
+let SERVER = process.env.REACT_APP_SERVER;
 
 class BestBooks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: []
+      books: [],
+      showAddModal: false,
+      showUpdateModal: false,
     }
   }
 
@@ -19,39 +19,66 @@ class BestBooks extends React.Component {
 
   /* TODO: Make a GET request to your API to fetch books for the logged in user  */
 
-  getBooks = async () => {
-    console.log(`${url}/books`);
-    let bookResults = await axios.get(url + '/books');
-
-    console.log(bookResults.data);
-    this.setState({
-      books: bookResults.data
-    });
+  getBooks = async (email) => {
+    try {
+      console.log('get', `${SERVER}/books`);
+      let bookResults = await axios.get(`${SERVER}/books?email=${email}`);
+      console.log(bookResults.data);
+      this.setState({
+        books: bookResults.data,
+      })
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  makeBook = async (newBook) => {
-    let url = 'http://localhost:3001/books';
-    let bookResult = await axios.post(url, newBook);
 
-    // console.log(bookResult.data);
+
+
+
+  makeBook = async (newBook) => {
+    try{
+    let url = `${SERVER}/books`;
+    let bookResult = await axios.post(url, newBook);
     this.setState({
       books: [...this.state.books, bookResult.data]
     })
+    } catch (err) {
+      console.error(err)
   }
-
+  }
+  
   deleteBook = async (id) => {
-    let url = 'http://localhost:3001/books';
-    await axios.delete(`${url}/${id}`)
+    try {
+    // let url = `${url}/books`;
+    await axios.delete(`${SERVER}/books/${id}`)
     const updatedBooks = this.state.books.filter(book => book._id !== id);
 
     this.setState({
       books: updatedBooks
     });
+  } catch (err) {
+    console.error (err)
+  }
+  }
+
+  updateBook = async (bookToUpdate) => {
+    try {
+      let url = `${SERVER}/books`;
+      let updatedBook = await axios.put(`${url}/${bookToUpdate._id}`, bookToUpdate)
+      let updatedBookData = this.state.books.map(existingBook => existingBook._id === updatedBook.data._id ? updatedBook.data : existingBook)
+      this.setState ({
+        books: updatedBookData,
+      })
+
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   componentDidMount() {
     console.log('component did mount');
-    this.getBooks();
+    this.getBooks(this.props.user.email);
   }
 
   handleBookSubmit = (e) => {
@@ -62,10 +89,30 @@ class BestBooks extends React.Component {
       status: e.target.status.value,
       email: e.target.email.value
     }
+    this.handleCloseAddModal();
     // console.log(newBook);
     this.makeBook(newBook);
   }
 
+
+  showAddModal = (e) => {
+    e.preventDefault();
+
+    this.setState({
+      showAddModal: true,
+    })
+  }
+
+  handleCloseAddModal = () => {
+    this.setState({
+      showAddModal: false
+    })
+  }
+
+
+  
+
+ 
   render() {
 
     console.log(this.state);
@@ -82,8 +129,10 @@ class BestBooks extends React.Component {
         <Carousel.Caption>
           <h3>{book.title}</h3>
           <p>{book.description}</p>
+        <Button onClick={() => this.deleteBook(book._id)}>Delete</Button>
+        <UpdateButton book={book} updateBook={this.updateBook} />
+        {/* <UpdateModal  showUpdateModal={this.state.showUpdateModal} handleCloseUpdateModal={this.handleCloseUpdateModal} /> */}
         </Carousel.Caption>
-        <Button onClick={() => this.props.deleteBook(this.props.book.id)}>Delete</Button>
       </Carousel.Item >
     )
     )
@@ -91,41 +140,58 @@ class BestBooks extends React.Component {
     return (
       <>
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+        <Button onClick={this.showAddModal}>Submit a Book</Button>
         <>
           <Container>
-            <Form onSubmit={this.handleBookSubmit}>
-              <Form.Group controlId="title">
-                <Form.Label>
-                  Title
-                </Form.Label>
-                <Form.Control type="text" />
-              </Form.Group>
-              <Form.Group controlId="description">
-                <Form.Label>
-                  Description
-                </Form.Label>
-                <Form.Control type="text" />
-              </Form.Group>
-              <Form.Group controlId="status">
-                <Form.Label>
-                  Status
-                </Form.Label>
-                <Form.Control type="text" />
-              </Form.Group>
-              <Form.Group controlId="email">
-                <Form.Label>
-                  Email
-                </Form.Label>
-                <Form.Control type="text" />
-              </Form.Group>
-              <Button type="submit">Add a Book</Button>
-            </Form>
-          </Container>
+            <Modal
+
+              show={this.state.showAddModal}
+              onHide={this.handleCloseAddModal}
+              centered
+              size="xl"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Input Book Info</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+
+                <Form onSubmit={this.handleBookSubmit}>
+                  <Form.Group controlId="title">
+                    <Form.Label>
+                      Title
+                    </Form.Label>
+                    <Form.Control type="text" />
+                  </Form.Group>
+                  <Form.Group controlId="description">
+                    <Form.Label>
+                      Description
+                    </Form.Label>
+                    <Form.Control type="text" />
+                  </Form.Group>
+                  <Form.Group controlId="status">
+                    <Form.Label>
+                      Status
+                    </Form.Label>
+                    <Form.Control type="text" />
+                  </Form.Group>
+                  <Form.Group controlId="email">
+                    <Form.Label>
+                      Email
+                    </Form.Label>
+                    <Form.Control type="text" />
+                  </Form.Group>
+                  <Button type="submit">Submit a Book</Button>
+                </Form>
+              </Modal.Body>
+            </Modal>
+          </Container>          
         </>
         {this.state.books.length ? (
-          <Carousel>
+        <Container>
+         <Carousel>
             {bestBooks}
           </Carousel>
+        </Container> 
         ) : (
           <h3>No Books Found :(</h3>
         )}
