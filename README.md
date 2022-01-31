@@ -57,13 +57,20 @@ Estimated feature build time: 3 Hours
 
 Actual Completion Time: 2.45 Hours (3:30-6:15PM PST)
 
+#### Login Authenication (powered by Auth0)
+
+1/30/22
+Estimated feature build time: 2 Hours
+
+Actual Completion Time: Hours (4:30-7:45PM PST, minus 1 hour worth of breaks and waiting on mutual availability)
+
 ## Credit and Collaborations
 
 Assistance was provided by Code Fellows staff members: Ryan Gallaway, Riva Davidowski, Sarah Creager
 
 ## Work Log
 
-* 01/24/22: Driver Log [Other teammate non-navigation actions in brackets]: **note-- come back to status in schema to replace with boolean**?
+* 01/24/22: Driver Log [Other teammate non-navigation actions in brackets]:
 
   * [Robb: when not driving, periodically recorded in ReadMe]
   * Rae: Created front-end repo [cloned locally]; deployment of front-end to Netlify;
@@ -81,6 +88,9 @@ Assistance was provided by Code Fellows staff members: Ryan Gallaway, Riva David
 
 * 01/26/22: Driver Log
   * Chuck: Caught up remaining Lab 12 Features: Modals, deletion, carousel styling& functionality ; built out PUT request functionality
+
+* 1/30/22: Driver Log
+  * Rae: Implemented Auth0 authentication to site login [Robb: setup Auth0 account and provided domain & ID codes]
 
 ## Team Agreement
 
