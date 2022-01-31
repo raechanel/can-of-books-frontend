@@ -15,51 +15,58 @@ class BestBooks extends React.Component {
     }
   }
 
-
-
-  /* TODO: Make a GET request to your API to fetch books for the logged in user  */
-
-  getBooks = async (email) => {
-    try {
-      console.log('get', `${SERVER}/books`);
-      let bookResults = await axios.get(`${SERVER}/books?email=${email}`);
-      console.log(bookResults.data);
+  getBooks = async () => {
+    if (this.props.auth0.isAuthenticated) {
+      const responseFromAuth0 = await this.props.auth0.getIdTokenClient();
+      const jwt = responseFromAuth0.__raw;
+      console.log(jwt);
+      const config = {
+        method: 'get',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: '/books',
+        headers: { "Authorization": `Bearer ${jwt}` },
+      }
+      const bookResponse = await axios(config);
       this.setState({
-        books: bookResults.data,
+        books: bookResponse.data
       })
-    } catch (err) {
-      console.error(err);
+
+      // try {
+      //   console.log('get', `${SERVER}/books`);
+      //   let bookResults = await axios.get(`${SERVER}/books?email=${email}`);
+      //   console.log(bookResults.data);
+      //   this.setState({
+      //     books: bookResults.data,
+      //   })
+      // } catch (err) {
+      //   console.error(err);
+      // }
     }
   }
 
-
-
-
-
   makeBook = async (newBook) => {
-    try{
-    let url = `${SERVER}/books`;
-    let bookResult = await axios.post(url, newBook);
-    this.setState({
-      books: [...this.state.books, bookResult.data]
-    })
+    try {
+      let url = `${SERVER}/books`;
+      let bookResult = await axios.post(url, newBook);
+      this.setState({
+        books: [...this.state.books, bookResult.data]
+      })
     } catch (err) {
       console.error(err)
+    }
   }
-  }
-  
   deleteBook = async (id) => {
     try {
-    // let url = `${url}/books`;
-    await axios.delete(`${SERVER}/books/${id}`)
-    const updatedBooks = this.state.books.filter(book => book._id !== id);
+      // let url = `${url}/books`;
+      await axios.delete(`${SERVER}/books/${id}`)
+      const updatedBooks = this.state.books.filter(book => book._id !== id);
 
-    this.setState({
-      books: updatedBooks
-    });
-  } catch (err) {
-    console.error (err)
-  }
+      this.setState({
+        books: updatedBooks
+      });
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   updateBook = async (bookToUpdate) => {
@@ -67,7 +74,7 @@ class BestBooks extends React.Component {
       let url = `${SERVER}/books`;
       let updatedBook = await axios.put(`${url}/${bookToUpdate._id}`, bookToUpdate)
       let updatedBookData = this.state.books.map(existingBook => existingBook._id === updatedBook.data._id ? updatedBook.data : existingBook)
-      this.setState ({
+      this.setState({
         books: updatedBookData,
       })
 
@@ -78,7 +85,8 @@ class BestBooks extends React.Component {
 
   componentDidMount() {
     console.log('component did mount');
-    this.getBooks(this.props.user.email);
+    // this.getBooks(this.props.user.email);
+    this.getBooks();
   }
 
   handleBookSubmit = (e) => {
@@ -110,9 +118,9 @@ class BestBooks extends React.Component {
   }
 
 
-  
 
- 
+
+
   render() {
 
     console.log(this.state);
@@ -129,9 +137,9 @@ class BestBooks extends React.Component {
         <Carousel.Caption>
           <h3>{book.title}</h3>
           <p>{book.description}</p>
-        <Button onClick={() => this.deleteBook(book._id)}>Delete</Button>
-        <UpdateButton book={book} updateBook={this.updateBook} />
-        {/* <UpdateModal  showUpdateModal={this.state.showUpdateModal} handleCloseUpdateModal={this.handleCloseUpdateModal} /> */}
+          <Button onClick={() => this.deleteBook(book._id)}>Delete</Button>
+          <UpdateButton book={book} updateBook={this.updateBook} />
+          {/* <UpdateModal  showUpdateModal={this.state.showUpdateModal} handleCloseUpdateModal={this.handleCloseUpdateModal} /> */}
         </Carousel.Caption>
       </Carousel.Item >
     )
@@ -184,20 +192,20 @@ class BestBooks extends React.Component {
                 </Form>
               </Modal.Body>
             </Modal>
-          </Container>          
+          </Container>
         </>
         {this.state.books.length ? (
-        <Container>
-         <Carousel>
-            {bestBooks}
-          </Carousel>
-        </Container> 
+          <Container>
+            <Carousel>
+              {bestBooks}
+            </Carousel>
+          </Container>
         ) : (
           <h3>No Books Found :(</h3>
         )}
       </>
     )
   }
-}
 
+}
 export default BestBooks;
