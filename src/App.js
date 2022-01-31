@@ -10,6 +10,8 @@ import {
 import BestBooks from './BestBooks';
 import Profile from './Profile';
 import Login from './Login';
+import { withAuth0 } from '@auth0/auth0-react';
+
 
 
 class App extends React.Component {
@@ -38,6 +40,7 @@ class App extends React.Component {
 
   render() {
     return (
+
       <>
         <Router>
           <Header user={this.state.user} onLogout={this.logoutHandler} />
@@ -47,13 +50,16 @@ class App extends React.Component {
             </Route>
             <Route exactPath="/profile">
               <Profile user={this.state.user} />
-            </Route>
-          </Switch>
-          <Footer />
-        </Router>
+              </Route>
+              </Switch>
+              <Footer />
+            </Router>
+          {/* {this.props.auth0.isAuthenticated ? <BestBooks /> : <h1>Please log in </h1>} */}
       </>
     )
   }
 }
 
-export default App;
+export default withAuth0(App);
+// export default App;
+
